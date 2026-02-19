@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router';
 import { AlertCircle } from 'lucide-react';
+import { useEffect } from 'react';
+import { trackPageView, trackCategoryClick } from '../utils/analytics';
 
 interface Category {
   id: string;
@@ -57,7 +59,14 @@ const categories: Category[] = [
 export function CategoryLanding() {
   const navigate = useNavigate();
 
+  // Track page view when component mounts
+  useEffect(() => {
+    trackPageView();
+  }, []);
+
   const handleCategoryClick = (categoryId: string) => {
+    // Track the category click
+    trackCategoryClick(categoryId);
     navigate(`/kategori/${categoryId}`);
   };
 

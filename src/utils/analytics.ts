@@ -29,3 +29,40 @@ export const getClickStats = (craftsmanId: string) => {
     total: craftsmanEvents.length
   };
 };
+
+// Track page view to backend
+export const trackPageView = async () => {
+  try {
+    const { projectId, publicAnonKey } = await import('./supabase/info');
+    const API_URL = `https://${projectId}.supabase.co/functions/v1/make-server-27acf415`;
+    
+    await fetch(`${API_URL}/page-view`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${publicAnonKey}`,
+        'Content-Type': 'application/json'
+      }
+    });
+  } catch (error) {
+    console.error('Error tracking page view:', error);
+  }
+};
+
+// Track category click to backend
+export const trackCategoryClick = async (category: string) => {
+  try {
+    const { projectId, publicAnonKey } = await import('./supabase/info');
+    const API_URL = `https://${projectId}.supabase.co/functions/v1/make-server-27acf415`;
+    
+    await fetch(`${API_URL}/category-click`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${publicAnonKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ category })
+    });
+  } catch (error) {
+    console.error('Error tracking category click:', error);
+  }
+};

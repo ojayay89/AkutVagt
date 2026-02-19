@@ -1,11 +1,22 @@
 import { useState, useEffect } from 'react';
-import { BarChart3, Phone, ExternalLink, TrendingUp, Calendar } from 'lucide-react';
+import { BarChart3, Phone, ExternalLink, TrendingUp, Calendar, Users, MousePointer } from 'lucide-react';
 import { Craftsman } from '../types';
 
 interface ClickData {
   id: string;
   craftsmanId: string;
   type: 'phone' | 'website';
+  timestamp: string;
+}
+
+interface PageView {
+  id: string;
+  timestamp: string;
+}
+
+interface CategoryClick {
+  id: string;
+  category: string;
   timestamp: string;
 }
 
@@ -20,6 +31,8 @@ export function StatsPanel() {
   const [stats, setStats] = useState<CraftsmanStats[]>([]);
   const [loading, setLoading] = useState(true);
   const [timeFilter, setTimeFilter] = useState<'all' | 'today' | 'week' | 'month'>('all');
+  const [pageViews, setPageViews] = useState<PageView[]>([]);
+  const [categoryClicks, setCategoryClicks] = useState<CategoryClick[]>([]);
 
   useEffect(() => {
     loadStats();
@@ -45,8 +58,27 @@ export function StatsPanel() {
       const clicksData = await clicksRes.json();
       const allClicks: ClickData[] = clicksData.data || [];
 
+      // Fetch page views
+      const pageViewsRes = await fetch(`${API_URL}/page-views`, {
+        headers: { 'Authorization': `Bearer ${publicAnonKey}` }
+      });
+      const pageViewsData = await pageViewsRes.json();
+      const allPageViews: PageView[] = pageViewsData.data || [];
+
+      // Fetch category clicks
+      const categoryClicksRes = await fetch(`${API_URL}/category-clicks`, {
+        headers: { 'Authorization': `Bearer ${publicAnonKey}` }
+      });
+      const categoryClicksData = await categoryClicksRes.json();
+      const allCategoryClicks: CategoryClick[] = categoryClicksData.data || [];
+
       // Filter clicks by time
       const filteredClicks = filterClicksByTime(allClicks, timeFilter);
+      const filteredPageViews = filterPageViewsByTime(allPageViews, timeFilter);
+      const filteredCategoryClicks = filterCategoryClicksByTime(allCategoryClicks, timeFilter);
+
+      setPageViews(filteredPageViews);
+      setCategoryClicks(filteredCategoryClicks);
 
       // Calculate stats per craftsman
       const statsData: CraftsmanStats[] = craftsmen.map(craftsman => {
@@ -91,6 +123,54 @@ export function StatsPanel() {
     return clicks.filter(click => new Date(click.timestamp) >= cutoff);
   };
 
+  const filterPageViewsByTime = (views: PageView[], filter: string): PageView[] => {
+    if (filter === 'all') return views;
+
+    const now = new Date();
+    const cutoff = new Date();
+
+    switch (filter) {
+      case 'today':
+        cutoff.setHours(0, 0, 0, 0);
+        break;
+      case 'week':
+        cutoff.setDate(now.getDate() - 7);
+        break;
+      case 'month':
+        cutoff.setMonth(now.getMonth() - 1);
+        break;
+    }
+
+    return views.filter(view => new Date(view.timestamp) >= cutoff);
+  };
+
+  const filterCategoryClicksByTime = (clicks: CategoryClick[], filter: string): CategoryClick[] => {
+    if (filter === 'all') return clicks;
+
+    const now = new Date();
+    const cutoff = new Date();
+
+    switch (filter) {
+      case 'today':
+        cutoff.setHours(0, 0, 0, 0);
+        break;
+      case 'week':
+        cutoff.setDate(now.getDate() - 7);
+        break;
+      case 'month':
+        cutoff.setMonth(now.getMonth() - 1);
+        break;
+    }
+
+    return clicks.filter(click => new Date(click.timestamp) >= cutoff);
+  };
+
+  // Calculate category stats
+  const categoriesStats = ['VVS', 'Elektriker', 'Kloakfirma', 'Låsesmed', 'Glarmester', 'Andet akut'].map(cat => ({
+    category: cat,
+    clicks: categoryClicks.filter(c => c.category === cat).length
+  }));
+
   const totalStats = stats.reduce(
     (acc, stat) => ({
       phoneClicks: acc.phoneClicks + stat.phoneClicks,
@@ -129,8 +209,8 @@ export function StatsPanel() {
         <div className="flex items-center gap-3">
           <BarChart3 className="w-8 h-8 text-red-600" />
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">Klik-statistik</h2>
-            <p className="text-sm text-gray-600">Se hvor mange der klikker på dine håndværkere</p>
+            <h2 className="text-2xl font-bold text-gray-900">Statistik</h2>
+            <p className="text-sm text-gray-600">Komplet oversigt over besøgende og klik</p>
           </div>
         </div>
         <button
@@ -163,16 +243,43 @@ export function StatsPanel() {
         ))}
       </div>
 
-      {/* Total Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {/* Top Stats Cards - Page Views and Total Clicks */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-lg p-6 text-white">
+          <div className="flex items-center justify-between mb-2">
+            <Users className="w-8 h-8 opacity-80" />
+          </div>
+          <div className="text-3xl font-bold">{pageViews.length}</div>
+          <div className="text-indigo-100 text-sm">Besøgende på siden</div>
+        </div>
+
         <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg p-6 text-white">
           <div className="flex items-center justify-between mb-2">
             <TrendingUp className="w-8 h-8 opacity-80" />
           </div>
           <div className="text-3xl font-bold">{totalStats.totalClicks}</div>
-          <div className="text-blue-100 text-sm">Total klik</div>
+          <div className="text-blue-100 text-sm">Total klik på håndværkere</div>
         </div>
+      </div>
 
+      {/* Category Clicks */}
+      <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="flex items-center gap-2 mb-4">
+          <MousePointer className="w-6 h-6 text-red-600" />
+          <h3 className="text-xl font-bold text-gray-900">Kategori-klik</h3>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          {categoriesStats.map(cat => (
+            <div key={cat.category} className="bg-gray-50 rounded-lg p-4 border border-gray-200">
+              <div className="text-2xl font-bold text-red-600">{cat.clicks}</div>
+              <div className="text-sm text-gray-600">{cat.category}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Craftsmen Click Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-lg p-6 text-white">
           <div className="flex items-center justify-between mb-2">
             <Phone className="w-8 h-8 opacity-80" />
@@ -192,6 +299,9 @@ export function StatsPanel() {
 
       {/* Stats Table */}
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="p-4 bg-gray-50 border-b border-gray-200">
+          <h3 className="font-bold text-gray-900">Klik per håndværker</h3>
+        </div>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-gray-50 border-b border-gray-200">

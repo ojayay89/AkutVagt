@@ -182,6 +182,73 @@ app.get('/make-server-27acf415/all-clicks', async (c) => {
   }
 });
 
+// Track page view
+app.post('/make-server-27acf415/page-view', async (c) => {
+  try {
+    const viewId = crypto.randomUUID();
+    const pageView = {
+      id: viewId,
+      timestamp: new Date().toISOString()
+    };
+    
+    await kv.set(`pageview:${viewId}`, pageView);
+    return c.json({ success: true, data: pageView });
+  } catch (error) {
+    console.error('Error tracking page view:', error);
+    return c.json({ success: false, error: String(error) }, 500);
+  }
+});
+
+// Track category click
+app.post('/make-server-27acf415/category-click', async (c) => {
+  try {
+    const body = await c.req.json();
+    const { category } = body;
+    
+    if (!category) {
+      return c.json({ 
+        success: false, 
+        error: 'Missing required field: category' 
+      }, 400);
+    }
+    
+    const clickId = crypto.randomUUID();
+    const categoryClick = {
+      id: clickId,
+      category,
+      timestamp: new Date().toISOString()
+    };
+    
+    await kv.set(`categoryclick:${clickId}`, categoryClick);
+    return c.json({ success: true, data: categoryClick });
+  } catch (error) {
+    console.error('Error tracking category click:', error);
+    return c.json({ success: false, error: String(error) }, 500);
+  }
+});
+
+// Get all page views (for admin stats)
+app.get('/make-server-27acf415/page-views', async (c) => {
+  try {
+    const allPageViews = await kv.getByPrefix('pageview:');
+    return c.json({ success: true, data: allPageViews });
+  } catch (error) {
+    console.error('Error fetching page views:', error);
+    return c.json({ success: false, error: String(error) }, 500);
+  }
+});
+
+// Get all category clicks (for admin stats)
+app.get('/make-server-27acf415/category-clicks', async (c) => {
+  try {
+    const allCategoryClicks = await kv.getByPrefix('categoryclick:');
+    return c.json({ success: true, data: allCategoryClicks });
+  } catch (error) {
+    console.error('Error fetching category clicks:', error);
+    return c.json({ success: false, error: String(error) }, 500);
+  }
+});
+
 // Initialize with sample data if empty
 app.post('/make-server-27acf415/init', async (c) => {
   try {
