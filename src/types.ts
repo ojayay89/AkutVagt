@@ -16,3 +16,14 @@ export interface ClickEvent {
   type: 'phone' | 'website';
   timestamp: number;
 }
+
+export interface PageView {
+  id: string;
+  timestamp: string;
+}
+
+export interface CategoryClick {
+  id: string;
+  category: string;
+  timestamp: string;
+}

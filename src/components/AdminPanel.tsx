@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Craftsman } from '../types';
 import { api } from '../utils/api';
-import { Plus, Edit2, Trash2, X, Save, Home, AlertCircle, LogOut, BarChart3 } from 'lucide-react';
+import { Plus, Edit2, Trash2, X, Save, Home, AlertCircle, LogOut, BarChart3, Search } from 'lucide-react';
 import { Link, useNavigate } from 'react-router';
 import { getSupabaseClient } from '../utils/supabase/client';
 import { StatsPanel } from './StatsPanel';
@@ -15,6 +15,7 @@ export function AdminPanel() {
   const [formData, setFormData] = useState<Partial<Craftsman>>({});
   const [authenticating, setAuthenticating] = useState(true);
   const [activeTab, setActiveTab] = useState<'craftsmen' | 'stats'>('craftsmen');
+  const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -320,6 +321,20 @@ export function AdminPanel() {
                   </div>
                 )}
 
+                {/* Search field */}
+                <div className="mb-4">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    <input
+                      type="text"
+                      placeholder="Søg efter virksomhed, kategori eller adresse..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                    />
+                  </div>
+                </div>
+
                 {/* List */}
                 <div className="overflow-x-auto">
                   <table className="w-full">
@@ -333,38 +348,44 @@ export function AdminPanel() {
                       </tr>
                     </thead>
                     <tbody>
-                      {craftsmen.map((craftsman) => (
-                        <tr key={craftsman.id} className="border-b border-gray-100 hover:bg-gray-50">
-                          <td className="py-3 px-2 text-sm">{craftsman.companyName}</td>
-                          <td className="py-3 px-2 text-sm">
-                            <span className="inline-block px-2 py-1 bg-red-100 text-red-700 rounded text-xs">
-                              {craftsman.category}
-                            </span>
-                          </td>
-                          <td className="py-3 px-2 text-sm text-gray-600 hidden sm:table-cell">{craftsman.phone}</td>
-                          <td className="py-3 px-2 text-sm text-gray-600 hidden md:table-cell">
-                            {craftsman.hourlyRate ? `${craftsman.hourlyRate} kr.` : '-'}
-                          </td>
-                          <td className="py-3 px-2 text-right">
-                            <div className="flex justify-end gap-2">
-                              <button
-                                onClick={() => handleEdit(craftsman)}
-                                className="p-2 text-blue-600 hover:bg-blue-50 rounded transition-colors"
-                                title="Rediger"
-                              >
-                                <Edit2 className="w-4 h-4" />
-                              </button>
-                              <button
-                                onClick={() => handleDelete(craftsman.id)}
-                                className="p-2 text-red-600 hover:bg-red-50 rounded transition-colors"
-                                title="Slet"
-                              >
-                                <Trash2 className="w-4 h-4" />
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
+                      {craftsmen
+                        .filter((craftsman) =>
+                          craftsman.companyName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          craftsman.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          craftsman.address.toLowerCase().includes(searchQuery.toLowerCase())
+                        )
+                        .map((craftsman) => (
+                          <tr key={craftsman.id} className="border-b border-gray-100 hover:bg-gray-50">
+                            <td className="py-3 px-2 text-sm">{craftsman.companyName}</td>
+                            <td className="py-3 px-2 text-sm">
+                              <span className="inline-block px-2 py-1 bg-red-100 text-red-700 rounded text-xs">
+                                {craftsman.category}
+                              </span>
+                            </td>
+                            <td className="py-3 px-2 text-sm text-gray-600 hidden sm:table-cell">{craftsman.phone}</td>
+                            <td className="py-3 px-2 text-sm text-gray-600 hidden md:table-cell">
+                              {craftsman.hourlyRate ? `${craftsman.hourlyRate} kr.` : '-'}
+                            </td>
+                            <td className="py-3 px-2 text-right">
+                              <div className="flex justify-end gap-2">
+                                <button
+                                  onClick={() => handleEdit(craftsman)}
+                                  className="p-2 text-blue-600 hover:bg-blue-50 rounded transition-colors"
+                                  title="Rediger"
+                                >
+                                  <Edit2 className="w-4 h-4" />
+                                </button>
+                                <button
+                                  onClick={() => handleDelete(craftsman.id)}
+                                  className="p-2 text-red-600 hover:bg-red-50 rounded transition-colors"
+                                  title="Slet"
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
                     </tbody>
                   </table>
                 </div>
