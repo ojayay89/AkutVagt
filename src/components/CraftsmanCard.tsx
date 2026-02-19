@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Craftsman } from '../types';
-import { Phone, ExternalLink, MapPin, Clock } from 'lucide-react';
+import { Phone, ExternalLink, MapPin, Clock, Navigation } from 'lucide-react';
 
 interface CraftsmanCardProps {
   craftsman: Craftsman;
@@ -70,7 +70,15 @@ export function CraftsmanCard({ craftsman }: CraftsmanCardProps) {
       {/* Address */}
       <div className="flex items-start gap-2 mb-3 text-gray-600">
         <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
-        <span className="text-sm">{craftsman.address}</span>
+        <div className="flex-1">
+          <span className="text-sm">{craftsman.address}</span>
+          {craftsman.distance !== undefined && (
+            <div className="flex items-center gap-1 mt-1 text-green-600">
+              <Navigation className="w-3 h-3" />
+              <span className="text-xs font-medium">{craftsman.distance} km væk</span>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Hourly Rate */}

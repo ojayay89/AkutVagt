@@ -6,6 +6,9 @@ export interface Craftsman {
   hourlyRate?: number;
   website?: string;
   category: string;
+  lat?: number;  // Latitude for distance calculation
+  lon?: number;  // Longitude for distance calculation
+  distance?: number;  // Calculated distance from user (in km)
 }
 
 export interface ClickEvent {
