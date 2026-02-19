@@ -8,7 +8,9 @@ export const craftsmen: Craftsman[] = [
     phone: '+45 12 34 56 78',
     hourlyRate: 850,
     website: 'https://www.akutvvs.dk',
-    category: 'VVS'
+    category: 'VVS',
+    lat: 55.7018,
+    lon: 12.5839
   },
   {
     id: '2',
@@ -17,7 +19,9 @@ export const craftsmen: Craftsman[] = [
     phone: '+45 23 45 67 89',
     hourlyRate: 950,
     website: 'https://www.elektrikeren247.dk',
-    category: 'Elektriker'
+    category: 'Elektriker',
+    lat: 56.1572,
+    lon: 10.2107
   },
   {
     id: '3',
@@ -26,7 +30,9 @@ export const craftsmen: Craftsman[] = [
     phone: '+45 34 56 78 90',
     hourlyRate: 750,
     website: 'https://www.noedblik.dk',
-    category: 'Glarmester'
+    category: 'Glarmester',
+    lat: 55.6738,
+    lon: 12.5534
   },
   {
     id: '4',
@@ -35,7 +41,9 @@ export const craftsmen: Craftsman[] = [
     phone: '+45 45 67 89 01',
     hourlyRate: 900,
     website: 'https://www.akutlaasesmed.dk',
-    category: 'Låsesmed'
+    category: 'Låsesmed',
+    lat: 56.1496,
+    lon: 10.2134
   },
   {
     id: '5',
@@ -43,7 +51,9 @@ export const craftsmen: Craftsman[] = [
     address: 'Roskildevej 234, 2630 Taastrup',
     phone: '+45 56 78 90 12',
     hourlyRate: 800,
-    category: 'Tømrer'
+    category: 'Tømrer',
+    lat: 55.6509,
+    lon: 12.2986
   },
   {
     id: '6',
@@ -52,6 +62,8 @@ export const craftsmen: Craftsman[] = [
     phone: '+45 67 89 01 23',
     hourlyRate: 875,
     website: 'https://www.varmenu.dk',
-    category: 'VVS'
+    category: 'VVS',
+    lat: 55.3959,
+    lon: 10.3883
   }
 ];

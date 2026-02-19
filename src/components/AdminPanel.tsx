@@ -264,6 +264,32 @@ export function AdminPanel() {
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Breddegrad (Latitude)
+                        </label>
+                        <input
+                          type="number"
+                          step="0.000001"
+                          value={formData.lat || ''}
+                          onChange={(e) => setFormData({ ...formData, lat: e.target.value ? Number(e.target.value) : undefined })}
+                          placeholder="55.7018"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Længdegrad (Longitude)
+                        </label>
+                        <input
+                          type="number"
+                          step="0.000001"
+                          value={formData.lon || ''}
+                          onChange={(e) => setFormData({ ...formData, lon: e.target.value ? Number(e.target.value) : undefined })}
+                          placeholder="12.5839"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
                           Telefon *
                         </label>
                         <input

@@ -46,7 +46,7 @@ app.get('/make-server-27acf415/craftsmen/:id', async (c) => {
 app.post('/make-server-27acf415/craftsmen', async (c) => {
   try {
     const body = await c.req.json();
-    const { companyName, address, phone, hourlyRate, website, category } = body;
+    const { companyName, address, phone, hourlyRate, website, category, lat, lon } = body;
     
     if (!companyName || !address || !phone || !category) {
       return c.json({ 
@@ -64,6 +64,8 @@ app.post('/make-server-27acf415/craftsmen', async (c) => {
       hourlyRate: hourlyRate || null,
       website: website || null,
       category,
+      lat: lat || null,
+      lon: lon || null,
       createdAt: new Date().toISOString()
     };
     
@@ -200,7 +202,9 @@ app.post('/make-server-27acf415/init', async (c) => {
         phone: '+45 12 34 56 78',
         hourlyRate: 850,
         website: 'https://www.akutvvs.dk',
-        category: 'VVS'
+        category: 'VVS',
+        lat: 55.7018,
+        lon: 12.5839
       },
       {
         id: crypto.randomUUID(),
@@ -209,7 +213,9 @@ app.post('/make-server-27acf415/init', async (c) => {
         phone: '+45 23 45 67 89',
         hourlyRate: 950,
         website: 'https://www.elektrikeren247.dk',
-        category: 'Elektriker'
+        category: 'Elektriker',
+        lat: 56.1572,
+        lon: 10.2107
       },
       {
         id: crypto.randomUUID(),
@@ -218,7 +224,41 @@ app.post('/make-server-27acf415/init', async (c) => {
         phone: '+45 34 56 78 90',
         hourlyRate: 750,
         website: 'https://www.noedblik.dk',
-        category: 'Glarmester'
+        category: 'Glarmester',
+        lat: 55.6738,
+        lon: 12.5534
+      },
+      {
+        id: crypto.randomUUID(),
+        companyName: 'Akut Låsesmed Service',
+        address: 'Åboulevarden 12, 8000 Aarhus C',
+        phone: '+45 45 67 89 01',
+        hourlyRate: 900,
+        website: 'https://www.akutlaasesmed.dk',
+        category: 'Låsesmed',
+        lat: 56.1496,
+        lon: 10.2134
+      },
+      {
+        id: crypto.randomUUID(),
+        companyName: 'Tag & Tætning SOS',
+        address: 'Roskildevej 234, 2630 Taastrup',
+        phone: '+45 56 78 90 12',
+        hourlyRate: 800,
+        category: 'Tømrer',
+        lat: 55.6509,
+        lon: 12.2986
+      },
+      {
+        id: crypto.randomUUID(),
+        companyName: 'Varme Nu ApS',
+        address: 'Fynsgade 56, 5000 Odense C',
+        phone: '+45 67 89 01 23',
+        hourlyRate: 875,
+        website: 'https://www.varmenu.dk',
+        category: 'VVS',
+        lat: 55.3959,
+        lon: 10.3883
       }
     ];
     
