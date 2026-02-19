@@ -133,6 +133,117 @@ export function CategoryLanding() {
             );
           })}
         </div>
+
+        {/* SEO Content Section */}
+        <section className="mt-16 bg-white rounded-2xl shadow-md p-8">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">
+            Find Akut Håndværker i Danmark - døgnvagt hele året
+          </h2>
+          
+          <div className="prose prose-gray max-w-none">
+            <p className="text-lg text-gray-700 mb-4">
+              Har du brug for <strong>akut hjælp fra en håndværker</strong> i dit område? Hos AkutVagt finder du kvalificerede 
+              håndværkere med døgnvagt, der kan hjælpe dig med akutte situationer som vandskader, strømafbrydelser, 
+              låst ude-situationer og meget mere.
+            </p>
+
+            <h3 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">
+              Akut håndværkerhjælp i København, Aarhus, Odense og hele Danmark
+            </h3>
+            <p className="text-gray-700 mb-4">
+              Uanset om du befinder dig i <strong>København</strong>, <strong>Aarhus</strong>, <strong>Odense</strong>, 
+              Aalborg, Esbjerg eller andre byer i Danmark, kan du finde en <strong>akut håndværker</strong> nær dig. 
+              Vores platform viser håndværkere sorteret efter afstand, så du nemt kan finde den nærmeste 
+              døgnvagt i dit område.
+            </p>
+
+            <h3 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">
+              Hvad kan en akut håndværker hjælpe med?
+            </h3>
+            <ul className="list-disc pl-6 text-gray-700 space-y-2 mb-6">
+              <li><strong>Akut VVS</strong> - Vandskader, utætte rør, stoppede afløb, varmepumpe problemer</li>
+              <li><strong>Akut Elektriker</strong> - Strømafbrydelser, elproblemer, fejlfinding, sikringsskab</li>
+              <li><strong>Nød Låsesmed</strong> - Låst ude, nødåbning af døre, låseskift, indbrudssikring</li>
+              <li><strong>Akut Glarmester</strong> - Knust vinduesglas, akut reparation, sikkerhedsglas</li>
+              <li><strong>Akut Kloakfirma</strong> - Kloakproblemer, TV-inspektion, akut afløbsrensning</li>
+            </ul>
+
+            <h3 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">
+              Hvorfor vælge AkutVagt?
+            </h3>
+            <ul className="list-disc pl-6 text-gray-700 space-y-2 mb-6">
+              <li>✅ Find <strong>håndværker døgnvagt</strong> i dit område med det samme</li>
+              <li>✅ Se priser for akut tilkald før du ringer</li>
+              <li>✅ Sorteret efter nærmeste håndværker til din adresse</li>
+              <li>✅ Direkte kontaktoplysninger - ingen mellemled</li>
+              <li>✅ Dækker hele Danmark - København til Skagen</li>
+            </ul>
+
+            <p className="text-gray-700 mb-4">
+              <strong>Akut hjælp er kun et klik væk.</strong> Vælg din kategori ovenfor og find den rigtige 
+              håndværker til dit akutte behov. Husk altid at bekræfte priser før håndværkeren kommer ud.
+            </p>
+          </div>
+        </section>
+
+        {/* FAQ Section for SEO */}
+        <section className="mt-12 bg-gray-50 rounded-2xl shadow-md p-8">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">
+            Ofte stillede spørgsmål om akut håndværker
+          </h2>
+          
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                Hvor hurtigt kan en akut håndværker komme?
+              </h3>
+              <p className="text-gray-700">
+                De fleste akut håndværkere kan ankomme inden for 1-2 timer, afhængigt af din lokation 
+                og situationen. Ring direkte til håndværkeren for at få bekræftet ankomsttid.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                Hvad koster det at tilkalde en akut håndværker?
+              </h3>
+              <p className="text-gray-700">
+                Priserne varierer, men akut timepris er typisk mellem 800-1500 kr. i timen afhængigt af 
+                fagområde og tidspunkt. Se konkrete priser hos hver håndværker på siden.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                Er håndværkerne tilgængelige 24/7?
+              </h3>
+              <p className="text-gray-700">
+                Mange af vores håndværkere tilbyder døgnservice 24 timer i døgnet, 7 dage om ugen. 
+                Tjek den enkelte håndværkers tilgængelighed ved at kontakte dem direkte.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                Hvordan finder jeg den nærmeste akut håndværker?
+              </h3>
+              <p className="text-gray-700">
+                Brug din lokation eller indtast din adresse, så sorterer vi automatisk håndværkerne 
+                efter afstand. Den nærmeste vises først, så du får hurtigst mulig hjælp.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                Kan jeg finde akut VVS i København?
+              </h3>
+              <p className="text-gray-700">
+                Ja! Vi har akut VVS-håndværkere i København, Frederiksberg, Aarhus, Odense, Aalborg 
+                og alle større byer i Danmark. Vælg VVS kategorien og filtrer på din lokation.
+              </p>
+            </div>
+          </div>
+        </section>
       </main>
 
       {/* Footer */}
