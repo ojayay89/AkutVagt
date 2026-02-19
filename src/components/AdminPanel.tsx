@@ -5,6 +5,7 @@ import { Plus, Edit2, Trash2, X, Save, Home, AlertCircle, LogOut, BarChart3 } fr
 import { Link, useNavigate } from 'react-router';
 import { getSupabaseClient } from '../utils/supabase/client';
 import { StatsPanel } from './StatsPanel';
+import { AddressAutocomplete } from './AddressAutocomplete';
 
 export function AdminPanel() {
   const [craftsmen, setCraftsmen] = useState<Craftsman[]>([]);
@@ -253,39 +254,14 @@ export function AdminPanel() {
                       </div>
                       <div className="sm:col-span-2">
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Adresse *
+                          Adresse * <span className="text-xs text-gray-500">(Koordinater udfyldes automatisk)</span>
                         </label>
-                        <input
-                          type="text"
+                        <AddressAutocomplete
                           value={formData.address || ''}
-                          onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Breddegrad (Latitude)
-                        </label>
-                        <input
-                          type="number"
-                          step="0.000001"
-                          value={formData.lat || ''}
-                          onChange={(e) => setFormData({ ...formData, lat: e.target.value ? Number(e.target.value) : undefined })}
-                          placeholder="55.7018"
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Længdegrad (Longitude)
-                        </label>
-                        <input
-                          type="number"
-                          step="0.000001"
-                          value={formData.lon || ''}
-                          onChange={(e) => setFormData({ ...formData, lon: e.target.value ? Number(e.target.value) : undefined })}
-                          placeholder="12.5839"
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                          onChange={(address, lat, lon) => {
+                            setFormData({ ...formData, address, lat, lon });
+                          }}
+                          placeholder="Søg og vælg adresse (f.eks. Nørregade 10, Aarhus)"
                         />
                       </div>
                       <div>

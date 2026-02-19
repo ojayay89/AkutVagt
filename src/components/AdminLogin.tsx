@@ -75,15 +75,6 @@ export function AdminLogin() {
               </div>
             )}
 
-            {/* Info box */}
-            {!error && (
-              <div className="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-lg text-xs">
-                <p className="font-medium mb-1">ℹ️ Første gang?</p>
-                <p>Admin-konti oprettes i <strong>Supabase Dashboard</strong>, ikke her.</p>
-                <p className="mt-1">Se <strong>OPRET_ADMIN.md</strong> for guide.</p>
-              </div>
-            )}
-
             {/* Email */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">

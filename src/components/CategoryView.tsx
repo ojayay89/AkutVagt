@@ -4,7 +4,8 @@ import { CraftsmanCard } from './CraftsmanCard';
 import { Craftsman } from '../types';
 import { api } from '../utils/api';
 import { AlertCircle, MapPin, ArrowLeft, Navigation } from 'lucide-react';
-import { getUserLocation, geocodeAddress, calculateDistance } from '../utils/geolocation';
+import { getUserLocation, calculateDistance } from '../utils/geolocation';
+import { AddressAutocomplete } from './AddressAutocomplete';
 
 // Category images and gradients
 const categoryData: Record<string, { image: string; gradient: string; description: string }> = {
@@ -51,7 +52,6 @@ export function CategoryView() {
   const [userLocation, setUserLocation] = useState<{ lat: number; lon: number } | null>(null);
   const [locationPermission, setLocationPermission] = useState<'granted' | 'denied' | 'prompt'>('prompt');
   const [manualAddress, setManualAddress] = useState('');
-  const [geocoding, setGeocoding] = useState(false);
 
   useEffect(() => {
     loadCraftsmen();
@@ -91,10 +91,17 @@ export function CategoryView() {
   const requestLocation = async () => {
     try {
       const position = await getUserLocation();
-      setUserLocation({
+      const coords = {
         lat: position.coords.latitude,
         lon: position.coords.longitude
-      });
+      };
+      
+      // DEBUG: Log koordinater
+      console.log('🗺️ Din position:', coords);
+      console.log('📍 Latitude:', coords.lat, '(skal være ~55-57 for Danmark)');
+      console.log('📍 Longitude:', coords.lon, '(skal være ~8-15 for Danmark)');
+      
+      setUserLocation(coords);
       setLocationPermission('granted');
     } catch (error) {
       console.log('Location permission denied or unavailable');
@@ -104,23 +111,7 @@ export function CategoryView() {
 
   const handleManualAddressSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!manualAddress.trim()) return;
-
-    setGeocoding(true);
-    try {
-      const coords = await geocodeAddress(manualAddress);
-      if (coords) {
-        setUserLocation(coords);
-        setLocationPermission('granted');
-      } else {
-        alert('Kunne ikke finde adressen. Prøv venligst igen.');
-      }
-    } catch (error) {
-      console.error('Geocoding error:', error);
-      alert('Fejl ved søgning efter adresse. Prøv venligst igen.');
-    } finally {
-      setGeocoding(false);
-    }
+    // This is no longer needed since AddressAutocomplete handles it
   };
 
   // Calculate distances and sort craftsmen
@@ -142,21 +133,39 @@ export function CategoryView() {
             craftsman.lat,
             craftsman.lon
           );
+          
+          // DEBUG: Log første beregning
+          if (filtered.indexOf(craftsman) === 0) {
+            console.log('🔍 Afstandsberegning eksempel:');
+            console.log('   Din position:', userLocation.lat, userLocation.lon);
+            console.log('   Håndværker:', craftsman.companyName);
+            console.log('   Håndværker position:', craftsman.lat, craftsman.lon);
+            console.log('   ➡️ Afstand:', distance, 'km');
+          }
+          
           return { ...craftsman, distance };
         }
         return craftsman;
       });
-
-      // Sort by distance (closest first)
-      filtered = filtered.sort((a, b) => {
-        if (a.distance !== undefined && b.distance !== undefined) {
-          return a.distance - b.distance;
-        }
-        if (a.distance !== undefined) return -1;
-        if (b.distance !== undefined) return 1;
-        return 0;
-      });
     }
+
+    // ALWAYS sort by distance (closest first) - even without user location
+    // This will sort by craftsman's own coordinates
+    filtered = filtered.sort((a, b) => {
+      // If we have calculated distances, use those
+      if (a.distance !== undefined && b.distance !== undefined) {
+        return a.distance - b.distance;
+      }
+      if (a.distance !== undefined) return -1;
+      if (b.distance !== undefined) return 1;
+      
+      // Fallback: sort by latitude (north to south) if no distance available
+      if (a.lat !== undefined && b.lat !== undefined) {
+        return b.lat - a.lat; // Higher latitude (more north) first
+      }
+      
+      return 0;
+    });
 
     return filtered;
   }, [craftsmen, category, userLocation]);
@@ -254,22 +263,27 @@ export function CategoryView() {
               </p>
               
               {locationPermission === 'denied' && (
-                <form onSubmit={handleManualAddressSubmit} className="flex gap-3">
-                  <input
-                    type="text"
+                <div className="w-full">
+                  <AddressAutocomplete
                     value={manualAddress}
-                    onChange={(e) => setManualAddress(e.target.value)}
-                    placeholder="Indtast din adresse (f.eks. Nørregade 10, København)"
-                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                    onChange={(address, lat, lon) => {
+                      console.log('📥 CategoryView modtog fra autocomplete:');
+                      console.log('   Adresse:', address);
+                      console.log('   Latitude:', lat);
+                      console.log('   Longitude:', lon);
+                      
+                      setManualAddress(address);
+                      if (lat && lon) {
+                        console.log('✅ Sætter userLocation til:', { lat, lon });
+                        setUserLocation({ lat, lon });
+                        setLocationPermission('granted');
+                      } else {
+                        console.warn('⚠️ Mangler koordinater - afstand kan ikke beregnes');
+                      }
+                    }}
+                    placeholder="Søg og vælg din adresse (f.eks. Vestergade 5, Odense)"
                   />
-                  <button
-                    type="submit"
-                    disabled={geocoding}
-                    className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:bg-gray-400 transition-colors"
-                  >
-                    {geocoding ? 'Søger...' : 'Søg'}
-                  </button>
-                </form>
+                </div>
               )}
 
               {locationPermission === 'prompt' && (
