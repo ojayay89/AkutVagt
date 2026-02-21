@@ -163,7 +163,7 @@ export function CategoryLanding() {
             <ul className="list-disc pl-6 text-gray-700 space-y-2 mb-6">
               <li><strong>Akut VVS</strong> - Vandskader, utætte rør, stoppede afløb, varmepumpe problemer</li>
               <li><strong>Akut Elektriker</strong> - Strømafbrydelser, elproblemer, fejlfinding, sikringsskab</li>
-              <li><strong>Nød Låsesmed</strong> - Låst ude, nødåbning af døre, låseskift, indbrudssikring</li>
+              <li><strong>Akut Låsesmed</strong> - Låst ude, nødåbning af døre, låseskift, indbrudssikring</li>
               <li><strong>Akut Glarmester</strong> - Knust vinduesglas, akut reparation, sikkerhedsglas</li>
               <li><strong>Akut Kloakfirma</strong> - Kloakproblemer, TV-inspektion, akut afløbsrensning</li>
             </ul>
@@ -218,7 +218,7 @@ export function CategoryLanding() {
                 Er håndværkerne tilgængelige 24/7?
               </h3>
               <p className="text-gray-700">
-                Mange af vores håndværkere tilbyder døgnservice 24 timer i døgnet, 7 dage om ugen. 
+                Mange af håndværkerne tilbyder døgnservice 24 timer i døgnet, 7 dage om ugen. 
                 Tjek den enkelte håndværkers tilgængelighed ved at kontakte dem direkte.
               </p>
             </div>
@@ -235,7 +235,7 @@ export function CategoryLanding() {
 
             <div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                Kan jeg finde akut VVS i København?
+                Kan jeg finde akut VVS i mit nærområde?
               </h3>
               <p className="text-gray-700">
                 Ja! Vi har akut VVS-håndværkere i København, Frederiksberg, Aarhus, Odense, Aalborg 
