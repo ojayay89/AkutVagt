@@ -1,19 +1,17 @@
 # Dependencies
-node_modules/
-/.pnp
+node_modules
+.pnp
 .pnp.js
 
-# Production builds
-/build
-/dist
-/.next
-/out
-
 # Testing
-/coverage
+coverage
 
-# Environment variables
-.env
+# Production
+dist
+build
+
+# Misc
+.DS_Store
 .env.local
 .env.development.local
 .env.test.local
@@ -23,32 +21,20 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
 
-# Editor directories and files
+# Editor
 .vscode/*
 !.vscode/extensions.json
 .idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# OS files
-.DS_Store
-Thumbs.db
+*.swp
+*.swo
+*~
 
 # Vercel
 .vercel
 
-# Supabase
-supabase/.temp
-supabase/.branches
+# TypeScript
+*.tsbuildinfo
 
-# Misc
-*.log
-*.cache
-.cache/
+# SRC FOLDER - SHOULD NOT EXIST
+src/
