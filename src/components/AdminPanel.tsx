@@ -242,17 +242,47 @@ export function AdminPanel() {
                         </label>
                         <select
                           value={formData.category || 'VVS'}
-                          onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                          onChange={(e) => {
+                            const newCategory = e.target.value;
+                            // Clear subcategory if switching away from "Andet akut"
+                            if (newCategory !== 'Andet akut') {
+                              setFormData({ ...formData, category: newCategory, subcategory: undefined });
+                            } else {
+                              setFormData({ ...formData, category: newCategory });
+                            }
+                          }}
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                         >
                           <option value="VVS">VVS</option>
                           <option value="Elektriker">Elektriker</option>
-                          <option value="Glarmester">Glarmester</option>
+                          <option value="Kloakfirma">Kloakfirma</option>
                           <option value="Låsesmed">Låsesmed</option>
-                          <option value="Tømrer">Tømrer</option>
-                          <option value="Murer">Murer</option>
+                          <option value="Glarmester">Glarmester</option>
+                          <option value="Andet akut">Andet akut</option>
                         </select>
                       </div>
+                      {/* Show subcategory field only when "Andet akut" is selected */}
+                      {formData.category === 'Andet akut' && (
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Type af service *
+                          </label>
+                          <select
+                            value={formData.subcategory || ''}
+                            onChange={(e) => setFormData({ ...formData, subcategory: e.target.value })}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                          >
+                            <option value="">Vælg type</option>
+                            <option value="Skadedyrsbekæmpelse">Skadedyrsbekæmpelse</option>
+                            <option value="Autohjælp">Autohjælp</option>
+                            <option value="Sikkerhedsvagt">Sikkerhedsvagt</option>
+                            <option value="Tag & facade">Tag & facade</option>
+                            <option value="Træfældning">Træfældning</option>
+                            <option value="Vandskadeservice">Vandskadeservice</option>
+                            <option value="Andet">Andet</option>
+                          </select>
+                        </div>
+                      )}
                       <div className="sm:col-span-2">
                         <label className="block text-sm font-medium text-gray-700 mb-1">
                           Adresse * <span className="text-xs text-gray-500">(Koordinater udfyldes automatisk)</span>
@@ -358,9 +388,16 @@ export function AdminPanel() {
                           <tr key={craftsman.id} className="border-b border-gray-100 hover:bg-gray-50">
                             <td className="py-3 px-2 text-sm">{craftsman.companyName}</td>
                             <td className="py-3 px-2 text-sm">
-                              <span className="inline-block px-2 py-1 bg-red-100 text-red-700 rounded text-xs">
-                                {craftsman.category}
-                              </span>
+                              <div className="flex flex-col gap-1">
+                                <span className="inline-block px-2 py-1 bg-red-100 text-red-700 rounded text-xs w-fit">
+                                  {craftsman.category}
+                                </span>
+                                {craftsman.subcategory && (
+                                  <span className="inline-block px-2 py-1 bg-orange-100 text-orange-700 rounded text-xs w-fit">
+                                    {craftsman.subcategory}
+                                  </span>
+                                )}
+                              </div>
                             </td>
                             <td className="py-3 px-2 text-sm text-gray-600 hidden sm:table-cell">{craftsman.phone}</td>
                             <td className="py-3 px-2 text-sm text-gray-600 hidden md:table-cell">

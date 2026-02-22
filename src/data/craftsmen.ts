@@ -51,7 +51,8 @@ export const craftsmen: Craftsman[] = [
     address: 'Roskildevej 234, 2630 Taastrup',
     phone: '+45 56 78 90 12',
     hourlyRate: 800,
-    category: 'Tømrer',
+    category: 'Andet akut',
+    subcategory: 'Tag & facade',
     lat: 55.6509,
     lon: 12.2986
   },
@@ -65,5 +66,16 @@ export const craftsmen: Craftsman[] = [
     category: 'VVS',
     lat: 55.3959,
     lon: 10.3883
+  },
+  {
+    id: '7',
+    companyName: 'Skadedyr Stop 24/7',
+    address: 'Vestergade 89, 2100 København Ø',
+    phone: '+45 78 90 12 34',
+    hourlyRate: 950,
+    category: 'Andet akut',
+    subcategory: 'Skadedyrsbekæmpelse',
+    lat: 55.7074,
+    lon: 12.5805
   }
 ];

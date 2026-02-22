@@ -9,6 +9,16 @@ interface CraftsmanCardProps {
 export function CraftsmanCard({ craftsman }: CraftsmanCardProps) {
   const [showPhone, setShowPhone] = useState(false);
 
+  // DEBUG: Log craftsman data to help troubleshoot
+  if (craftsman.category === 'Andet akut') {
+    console.log('🔍 Andet akut håndværker:', {
+      companyName: craftsman.companyName,
+      category: craftsman.category,
+      subcategory: craftsman.subcategory,
+      hasSubcategory: !!craftsman.subcategory
+    });
+  }
+
   const handlePhoneClick = async () => {
     setShowPhone(true);
     
@@ -61,10 +71,15 @@ export function CraftsmanCard({ craftsman }: CraftsmanCardProps) {
       <div className="mb-4">
         <div className="flex items-start justify-between gap-2 mb-2">
           <h3 className="text-lg sm:text-xl font-semibold text-gray-900">{craftsman.companyName}</h3>
-          <span className="inline-block px-2 sm:px-3 py-1 text-xs font-medium bg-red-100 text-red-700 rounded-full whitespace-nowrap">
-            {craftsman.category}
-          </span>
         </div>
+        {/* Only show subcategory for "Andet akut" to distinguish service types */}
+        {craftsman.category === 'Andet akut' && craftsman.subcategory && (
+          <div className="mt-2">
+            <span className="inline-block px-3 py-1.5 text-sm font-semibold bg-red-600 text-white rounded-lg shadow-md">
+              {craftsman.subcategory}
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Address */}

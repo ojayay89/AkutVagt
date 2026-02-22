@@ -208,10 +208,10 @@ Admin-konti oprettes **KUN i Supabase** (ikke via hjemmesiden):
 Følgende kategorier er tilgængelige:
 - VVS
 - Elektriker
-- Glarmester
+- Kloakfirma
 - Låsesmed
-- Tømrer
-- Murer
+- Glarmester
+- Andet akut
 
 *Kategorier kan udvides ved at redigere dropdown i AdminPanel.tsx*
 

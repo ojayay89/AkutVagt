@@ -6,6 +6,7 @@ export interface Craftsman {
   hourlyRate?: number;
   website?: string;
   category: string;
+  subcategory?: string;  // For "Andet akut" - e.g. "Skadedyrsbekæmpelse", "Autohjælp", "Sikkerhedsvagt"
   lat?: number;  // Latitude for distance calculation
   lon?: number;  // Longitude for distance calculation
   distance?: number;  // Calculated distance from user (in km)
