@@ -118,6 +118,7 @@ export function AdminPanel() {
       address: '',
       phone: '',
       category: 'VVS',
+      subcategory: undefined,
       hourlyRate: undefined,
       website: ''
     });

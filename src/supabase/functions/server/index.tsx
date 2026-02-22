@@ -46,7 +46,7 @@ app.get('/make-server-27acf415/craftsmen/:id', async (c) => {
 app.post('/make-server-27acf415/craftsmen', async (c) => {
   try {
     const body = await c.req.json();
-    const { companyName, address, phone, hourlyRate, website, category, lat, lon } = body;
+    const { companyName, address, phone, hourlyRate, website, category, subcategory, lat, lon } = body;
     
     if (!companyName || !address || !phone || !category) {
       return c.json({ 
@@ -64,6 +64,7 @@ app.post('/make-server-27acf415/craftsmen', async (c) => {
       hourlyRate: hourlyRate || null,
       website: website || null,
       category,
+      subcategory: subcategory || null,
       lat: lat || null,
       lon: lon || null,
       createdAt: new Date().toISOString()
