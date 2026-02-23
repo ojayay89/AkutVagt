@@ -38,3 +38,5 @@ yarn-error.log*
 
 # SRC FOLDER - SHOULD NOT EXIST
 src/
+# Generated data
+output/
